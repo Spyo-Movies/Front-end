@@ -8,7 +8,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <div>
         <ul>
           <li>
-            <router-link>Filmes</router-link>
+            <router-link to="/Filmes">Filmes</router-link>
           </li>
           <li>
             <router-link>Séries</router-link>
