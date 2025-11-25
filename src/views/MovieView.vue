@@ -32,8 +32,11 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 
 <template>
 
-<h1>Filmes</h1>
+<h1 class="tituloPagina">Filmes</h1>
+<div class="container">
+ <div class="genre-sidebar">
   <ul class="genre-list">
+
 
       <li
     v-for="genero in generoStore.generos"
@@ -46,7 +49,7 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
   </li>
 
   </ul>
-
+ </div>
 
   <div class="movie-list">
     <div v-for="movie in movies" :key="movie.id" class="movie-card">
@@ -71,36 +74,76 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
     </div>
   </div>
 
-
+</div>
 </template>
 
 <style scoped>
-.genre-list {
+main{
+  --color: #ff0000
+}
+
+  div.container{
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-  list-style: none;
-  padding: 0;
+  height: 100vh;
+  gap: 10rem;
+
+}
+.tituloPagina{
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+}
+.genre-sidebar {
+  position: sticky;
 }
 
-.genre-item {
-  background-color: #5e5e5e;
-  border-radius: 1rem;
-  padding: 0.5rem 1rem;
-  color: #fff;
-}
-
-.genre-item:hover {
+ .genre-sidebar .genre-item {
+  position: relative;
+  z-index: 1;
+  padding: 0.5rem 0;
   cursor: pointer;
-  background-color: #6e0000;
-  box-shadow: 0 0 0.5rem #fd0000;
+  border: 2px solid var(--color);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  border-radius: 8px;
+  text-align: center;
+  color: var(--color);
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.genre-item::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  background: var(--color);
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  top: 100%;
+  left: 100%;
+  transition: all 0.7s ease-in-out;
+}
+.genre-item:hover {
+  color: #fff;
+  background-color: var(--color);
+}
+.genre-item:hover::before {
+  top: -25px;
+  left: -25px;
+  transform: scale(1.5);
+}
+.genre-item:active::before {
+  background: var(--color);
+  transition: background 0s;
 }
 
 .movie-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.5rem;
+  height: 150vh;
 }
 .movie-card {
   width: 15rem;
@@ -123,47 +166,4 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
   height: 3.2rem;
 }
 
-.genre-list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-  list-style: none;
-  margin-bottom: 2rem;
-}
-
-.movie-genres {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 0.2rem;
-}
-
-.movie-genres span {
-  background-color: #088767;
-  border-radius: 0.5rem;
-  padding: 0.2rem 0.5rem;
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.movie-genres span:hover {
-  cursor: pointer;
-  background-color: #455a08;
-  box-shadow: 0 0 0.5rem #748708;
-}
-.active {
-  background-color: #ffffff;
-  font-weight: bolder;
-  color: #000;
-}
-
-.movie-genres span.active {
-  background-color: #abc322;
-  color: #000;
-  font-weight: bolder;
-}
 </style>
