@@ -32,9 +32,11 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 
 <template>
   <main>
-<h1 class="tituloPagina">Filmes</h1>
+
 <div class="container">
+
  <div class="genre-sidebar">
+  <h1 class="tituloPagina">Gênero:</h1>
   <ul class="genre-list">
       <li
     v-for="genero in generoStore.generos"
@@ -47,10 +49,15 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
   </li>
 
   </ul>
+
  </div>
 
+  <div class="filmes"><h1>Filmes:</h1>
   <div class="movie-list">
+
+
     <div v-for="movie in movies" :key="movie.id" class="movie-card">
+
       <img
   :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
   :alt="movie.title"/>
@@ -71,6 +78,7 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
       </div>
     </div>
   </div>
+  </div>
 
 </div>
   </main>
@@ -79,7 +87,7 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 <style scoped>
 main{
   background-color: black;
-  --color: #ff0000;
+  --color: #ffffff;
 }
 
 .container{
@@ -92,25 +100,22 @@ main{
 }
 .genre-sidebar {
   position: sticky;
+  width: 20rem;
+  min-width: 20rem;
   top: 0;
-  left: 1rem;
-  margin-right: 10vw;
-  display: flex;
-  height: 80vh;
-  flex-direction: column;
-  overflow: hidden;
-  justify-content: flex-start;
-
-  box-shadow: 0 0 0.5rem #000;
-  min-width: 12rem;
+  left: 0;
+  height: 100vh;
+  padding: 2rem;
   overflow-y: auto;
-  max-height: max-content;
+  background-color: black;
+  color: white;
+
 }
 
  .genre-sidebar .genre-item {
   position: relative;
   z-index: 1;
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   cursor: pointer;
   border: 2px solid var(--color);
   transition:
@@ -136,7 +141,7 @@ main{
   transition: all 0.7s ease-in-out;
 }
 .genre-item:hover {
-  color: white;
+  color: black;
   background-color: var(--color);
 }
 .genre-item:hover::before {
@@ -153,6 +158,18 @@ main{
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+
+}
+
+.filmes{
+  padding: 2rem;
+  color: white;
+
+}
+.filmes h1{
+  margin-bottom: 2rem;
+  position: sticky;
+
 }
 .movie-card {
   width: 15rem;
@@ -160,6 +177,7 @@ main{
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 0 0.5rem #000;
+
 }
 .movie-card img {
   width: 100%;
@@ -168,10 +186,38 @@ main{
   box-shadow: 0 0 0.5rem #000;
 }
 .movie-title {
+  color: white;
   font-size: 1.1rem;
   font-weight: bold;
   line-height: 1.3rem;
   height: 3.2rem;
+}
+
+.movie-genres{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.movie-genres span{
+  padding: 0.4rem;
+  color: black;
+  background-color: white;
+  border: #000 2px solid;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.movie-genres span.active{
+  background-color: black;
+  color: white;
+  border: white 2px solid;
+  border-radius: 0.5rem;
+}
+
+.movie-release-date {
+  font-size: 0.9rem;
+  color: gray;
+  margin-bottom: 0.5rem;
 }
 
 </style>
