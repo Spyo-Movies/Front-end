@@ -32,13 +32,10 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 
 <template>
   <main>
-
 <h1 class="tituloPagina">Filmes</h1>
 <div class="container">
  <div class="genre-sidebar">
   <ul class="genre-list">
-
-
       <li
     v-for="genero in generoStore.generos"
     :key="genero.id"
@@ -80,21 +77,19 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 </template>
 
 <style scoped>
-
+main{
+  background-color: black;
+  --color: #ff0000;
+}
 
 .container{
-
-  height: 400vh;
   display: flex;
-
-
 }
 .tituloPagina{
   font-size: 2rem;
   margin-bottom: 1rem;
   margin-left: 2rem;
 }
-
 .genre-sidebar {
   position: sticky;
   top: 0;
@@ -110,10 +105,6 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
   min-width: 12rem;
   overflow-y: auto;
   max-height: max-content;
-
-
-
-
 }
 
  .genre-sidebar .genre-item {
@@ -145,7 +136,7 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
   transition: all 0.7s ease-in-out;
 }
 .genre-item:hover {
-  color: #fff;
+  color: white;
   background-color: var(--color);
 }
 .genre-item:hover::before {
@@ -153,26 +144,23 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
   left: -25px;
   transform: scale(1.5);
 }
-.genre-item:active::before {
+.genre-item.active{
   background: var(--color);
-  transition: background 0s;
+  color: black;
 }
-
 .movie-list {
+  position: sticky;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  height: 150vh;
-
 }
 .movie-card {
   width: 15rem;
-  height: 30rem;
+  min-height: 30rem;
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 0 0.5rem #000;
 }
-
 .movie-card img {
   width: 100%;
   height: 20rem;
