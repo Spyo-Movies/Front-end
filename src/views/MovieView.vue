@@ -31,6 +31,7 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 </script>
 
 <template>
+  <main>
 
 <h1 class="tituloPagina">Filmes</h1>
 <div class="container">
@@ -75,17 +76,17 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
   </div>
 
 </div>
+  </main>
 </template>
 
 <style scoped>
-main{
-  --color: #ff0000
-}
 
-  div.container{
+
+.container{
+
+  height: 400vh;
   display: flex;
-  height: 100vh;
-  gap: 10rem;
+
 
 }
 .tituloPagina{
@@ -93,8 +94,26 @@ main{
   margin-bottom: 1rem;
   margin-left: 2rem;
 }
+
 .genre-sidebar {
   position: sticky;
+  top: 0;
+  left: 1rem;
+  margin-right: 10vw;
+  display: flex;
+  height: 80vh;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: flex-start;
+
+  box-shadow: 0 0 0.5rem #000;
+  min-width: 12rem;
+  overflow-y: auto;
+  max-height: max-content;
+
+
+
+
 }
 
  .genre-sidebar .genre-item {
@@ -144,6 +163,7 @@ main{
   flex-wrap: wrap;
   gap: 0.5rem;
   height: 150vh;
+
 }
 .movie-card {
   width: 15rem;
