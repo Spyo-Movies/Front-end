@@ -168,6 +168,6 @@
   }
   ::v-deep(.swiper-button-next),
   ::v-deep(.swiper-button-prev) {
-    color: red; /* Mude para a cor que você quiser (ex: red, #FF00FF, etc.) */
+    color: red; 
   }
 </style>
