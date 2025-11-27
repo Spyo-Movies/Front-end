@@ -2,18 +2,23 @@
 import { ref, onMounted } from 'vue';
 import api from '@/plugins/axios';
 import { useGeneroStore } from '@/stores/generos';
+import Loading from 'vue-loading-overlay';
 
 const generoStore = useGeneroStore();
 
 onMounted(async () => {
-
+  isLoading.value = true;
   await generoStore.getTodosGeneros('movie');
+  isLoading.value = false;
 
 });
 const movies = ref([]);
+const isLoading = ref(false);
+
 
 const listaFilmes = async (generoId) => {
   generoStore.setIdGeneroAtual(generoId);
+  isLoading.value = true;
 
 
   const response = await api.get('discover/movie', {
@@ -24,6 +29,7 @@ const listaFilmes = async (generoId) => {
     },
   });
   movies.value = response.data.results;
+  isLoading.value = false;
 };
 const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 
@@ -51,8 +57,9 @@ const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
   </ul>
 
  </div>
-
+  <loading v-model:active="isLoading" is-full-page />
   <div class="filmes"><h1>Filmes:</h1>
+
   <div class="movie-list">
 
 

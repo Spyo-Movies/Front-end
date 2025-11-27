@@ -10,5 +10,6 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+import 'vue-loading-overlay/dist/css/index.css';
 
 app.mount('#app')
