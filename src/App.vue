@@ -24,8 +24,10 @@ import { RouterLink, RouterView } from 'vue-router'
         </ul>
       </div>
   </header>
-
   <RouterView />
+  <footer>
+    <p>SPYo-Movies &copy; 2025</p>
+  </footer>
 </template>
 
 <style scoped>
@@ -45,5 +47,11 @@ header ul {
 header a{
   color: black;
   text-decoration: none;
+}
+footer {
+  text-align: center;
+  padding: 4rem;
+  background-color: white;
+  color: black;
 }
 </style>
