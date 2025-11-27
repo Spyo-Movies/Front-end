@@ -87,7 +87,7 @@ onMounted(async () => {
 <style scoped>
 main {
   background-color: black;
-  --color: #ff0000;
+  --color: #ffffff;
 }
 .page-container {
   display: flex;
