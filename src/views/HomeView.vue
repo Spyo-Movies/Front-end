@@ -168,6 +168,6 @@
   }
   ::v-deep(.swiper-button-next),
   ::v-deep(.swiper-button-prev) {
-    color: red; 
+    color: red;
   }
 </style>

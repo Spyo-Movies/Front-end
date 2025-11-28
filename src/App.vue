@@ -1,9 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-</script>
+import loginView from './views/loginView.vue';
+import { usepopupLoginStore } from './stores/popUpLogin';
 
+const popupLoginStore = usepopupLoginStore();
+</script>
 <template>
   <header>
+    <loginView v-model:active="popupLoginStore.isLoginVisible"/>
       <router-link to="/">SPYo-Movies</router-link>
       <div>
         <ul>
@@ -14,7 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
             <router-link to="/series">Séries</router-link>
           </li>
           <li>
-            <router-link>Entrar</router-link>
+            <button @click="popupLoginStore.showLogin()"> Entrar </button>
           </li>
           <!--  Fazer um v-if checando se o usuário está logado depois de fazer o sistema de login
           <li>
