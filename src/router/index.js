@@ -24,6 +24,12 @@ const router = createRouter({
       component: () => import('../views/DetalhesFilmes.vue'),
       props: true,
     },
+    {
+      path: '/detalhes-series/:serieId',
+      name: 'DetalhesSeries',
+      component: () => import('../views/DetalhesSeries.vue'),
+      props: true,
+    },
   ],
 })
 

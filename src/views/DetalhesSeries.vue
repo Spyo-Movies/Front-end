@@ -1,25 +1,21 @@
 <script setup>
   import { defineProps, onMounted } from 'vue';
-  import { useFilmeStore } from '@/stores/filmes';
-  const filmeStore = useFilmeStore();
+  import { useSerieStore } from '@/stores/series';
+  const serieStore = useSerieStore();
 
 
 
   const props = defineProps({
-    filmeId: {
+    serieId: {
       type: Number,
       required: true,
     },
   });
 
   onMounted(async () => {
-    await filmeStore.getDetalhesFilme(props.filmeId);
+    await serieStore.getDetalhesSerie(props.serieId);
   });
 
-  const formatPtBr = (value) => {
-  if (value == null) return '-'
-  return new Intl.NumberFormat('pt-BR').format(Number(value))
-}
 
 
 </script>
@@ -28,29 +24,26 @@
   <div class="main">
     <div class="content">
       <img
-        :src="`https://image.tmdb.org/t/p/original${filmeStore.filmeAtual.poster_path}`"
-        :alt="filmeStore.filmeAtual.title"
+        :src="`https://image.tmdb.org/t/p/original${serieStore.serieAtual.poster_path}`"
+        :alt="serieStore.serieAtual.title"
       />
-
       <div class="detalhes">
-        <h1>Filme: {{  filmeStore.filmeAtual.title }}</h1>
-        <p>{{ filmeStore.filmeAtual.tagline }}</p>
-        <p>{{ filmeStore.filmeAtual.overview }}</p>
-        <p>Orçamento: ${{ formatPtBr(filmeStore.filmeAtual.budget) }}</p>
-        <p>Avaliação: {{ Math.round(filmeStore.filmeAtual.vote_average * 10) }}%</p>
+        <h1>{{  serieStore.serieAtual.name }}</h1>
+        <p class="avaliação">Avaliação: {{ Math.round(serieStore.serieAtual.vote_average * 10) }}%</p>
+        <p>{{ serieStore.serieAtual.tagline }}</p>
+        <p class="sinopse">Sinopse:</p>
+        <p>{{ serieStore.serieAtual.overview }}</p>
         <section class="buttons">
     <a class="btnfos btnfos-5">Adicionar aos favoritos</a>
      <a class="btnfos btnfos-5">Assistir mais tarde</a>
 </section>
       </div>
     </div>
-
-</div>
-
+ </div>
   <p class="produtoras">Produtoras:</p>
   <div class="companhias">
     <div
-      v-for="companhia in filmeStore.filmeAtual.production_companies"
+      v-for="companhia in serieStore.serieAtual.production_companies"
       :key="companhia.id"
     >
       <img
@@ -61,7 +54,6 @@
       <p v-else>{{ companhia.name }}</p>
     </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -85,11 +77,8 @@
   }
   .detalhes{
     max-width: 50vw;
-
     border-radius: 0.4rem;
     padding: 0 1rem;
-
-
   }
   .detalhes h1 {
     margin-bottom: 1rem;
@@ -99,16 +88,20 @@
     font-size: 1.3rem;
     line-height: 1.5;
     }
-
   .produtoras {
     font-size: 1rem;
     text-align: center;
     background-color: rgb(201, 199, 199);
     padding: 3rem;
     font-size: 2rem;
-
   }
-
+  .avaliação{
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    padding: 0.2rem;
+    border-radius: 0.4rem;
+    width: fit-content;
+  }
   .companhias {
     display: flex;
     gap: 2rem;
@@ -121,11 +114,16 @@
     background-color: rgb(201, 199, 199);
     font-size: 1.5rem;
   }
-
+  .sinopse{
+    font-weight: bold;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    padding: 0.2rem;
+    border-radius: 0.4rem;
+    width: fit-content;
+  }
   .buttons {
     margin-top: 1.5rem;
-
-
   }
 .btnfos {
   text-decoration: none;
@@ -138,8 +136,6 @@
   overflow: hidden;
   display: inline-block;
 }
-
-
 .btnfos-5 {
   border: 0 solid;
   box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
@@ -152,9 +148,7 @@
   outline-color: rgba(255, 255, 255, 0.5);
   outline-offset: 0px;
   padding: 0.5rem;
-
 }
-
 .btnfos-5:hover {
   border: 1px solid;
   box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
@@ -163,4 +157,8 @@
   text-shadow: 1px 1px 2px #427388;
 }
 
+
+
 </style>
+
+

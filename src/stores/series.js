@@ -9,10 +9,12 @@ export const useSerieStore = defineStore("serie", () => {
   const serieAtual = computed(() => state.serieAtual);
 
   const getDetalhesSerie = async(serieId) => {
-    const response = await api.get(`tv/${serieId}`);
+    const response = await api.get(`tv/${serieId}`, {
+      params: { language: 'pt-BR' }
+    });
     state.serieAtual = response.data;
   };
 
   return { serieAtual, getDetalhesSerie}
 
-  }); 
+  });
