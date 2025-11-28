@@ -15,6 +15,7 @@
   onMounted(async () => {
     await filmeStore.getDetalhesFilme(props.filmeId);
   });
+
   const formatPtBr = (value) => {
   if (value == null) return '-'
   return new Intl.NumberFormat('pt-BR').format(Number(value))
@@ -95,15 +96,19 @@
   }
   .detalhes p {
     margin-bottom: 0.5rem;
-    font-size: 1rem;
+    font-size: 1.3rem;
     line-height: 1.5;
     }
 
   .produtoras {
     font-size: 1rem;
     text-align: center;
+    background-color: rgb(201, 199, 199);
+    padding: 3rem;
+    font-size: 2rem;
 
   }
+
   .companhias {
     display: flex;
     gap: 2rem;
@@ -111,8 +116,10 @@
     padding: 0 2rem 2rem 2rem;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding-bottom: 6rem;
     gap: 10rem;
+    background-color: rgb(201, 199, 199);
+    font-size: 1.5rem;
   }
 
   .buttons {
