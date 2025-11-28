@@ -18,6 +18,12 @@ const router = createRouter({
       name: 'series',
       component: () => import('../views/SeriesView.vue'),
     },
+    {
+      path: '/detalhes-filmes/:filmeId',
+      name: 'DetalhesFilmes',
+      component: () => import('../views/DetalhesFilmes.vue'),
+      props: true,
+    },
   ],
 })
 
