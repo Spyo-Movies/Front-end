@@ -37,10 +37,15 @@
         <p>{{ filmeStore.filmeAtual.overview }}</p>
         <p>Orçamento: ${{ formatPtBr(filmeStore.filmeAtual.budget) }}</p>
         <p>Avaliação: {{ Math.round(filmeStore.filmeAtual.vote_average * 10) }}%</p>
+        <section class="buttons">
+    <a class="btnfos btnfos-5">Adicionar aos favoritos</a>
+     <a class="btnfos btnfos-5">Assistir mais tarde</a>
+</section>
       </div>
     </div>
 
 </div>
+
   <p class="produtoras">Produtoras:</p>
   <div class="companhias">
     <div
@@ -110,5 +115,45 @@
     gap: 10rem;
   }
 
+  .buttons {
+    margin-top: 1.5rem;
+
+
+  }
+.btnfos {
+  text-decoration: none;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  margin-right: 1rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+
+.btnfos-5 {
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 0px;
+  text-shadow: none;
+  -webkit-transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+          transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  outline-color: rgba(255, 255, 255, 0.5);
+  outline-offset: 0px;
+  padding: 0.5rem;
+
+}
+
+.btnfos-5:hover {
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+  outline-offset: 15px;
+  outline-color: rgba(255, 255, 255, 0);
+  text-shadow: 1px 1px 2px #427388;
+}
 
 </style>
