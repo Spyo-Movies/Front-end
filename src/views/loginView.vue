@@ -8,6 +8,7 @@ const popupLoginStore = usepopupLoginStore();
 
 </script>
 <template>
+  <transition name="fade">
   <main v-if="popupLoginStore.isLoginVisible">
   <div class="container">
     <h1>
@@ -23,6 +24,7 @@ const popupLoginStore = usepopupLoginStore();
     </div>
   </div>
   </main>
+  </transition>
 </template>
 <style scoped>
 main{
@@ -82,5 +84,12 @@ main{
   background-color: red;
   color: white;
   transition: 0.3s;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.7s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 </style>

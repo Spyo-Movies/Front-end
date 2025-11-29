@@ -16,10 +16,11 @@ onMounted(async () => {
   const tokenAprovado = route.query.request_token
 
   if (tokenAprovado) {
-    console.log('Token aprovado encontrado, criando sessão...')
     await usuarioStore.criarSessaoComTokenAprovado(tokenAprovado)
     router.replace({ query: {} })
   }
+
+  await usuarioStore.verificarSessaoSalva()
 })
 
 const filmesPopulares = ref([])

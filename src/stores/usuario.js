@@ -17,7 +17,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
       window.location.href = UrlAutenticacao
     }
 
-  const criarSessaoComTokenAprovado = async (tokenAprovado) => { // AGORA É RECONHECIDA
+  const criarSessaoComTokenAprovado = async (tokenAprovado) => {
       const respostaSessao = await api.post('/authentication/session/new', {
         request_token: tokenAprovado,
       })
@@ -32,16 +32,55 @@ export const useUsuarioStore = defineStore('usuario', () => {
         },
       })
       usuario.value = respostaUsuario.data
-      console.log('Usuário autenticado:', usuario.value)
+      alert(`Login realizado com sucesso! Bem-vindo agente ${usuario.value.username}`)
       localStorage.setItem('session_id', novoSessionId)
     }
 
+    const verificarSessaoSalva = async () => {
+      const sessionIdsalvo = localStorage.getItem('session_id')
+      if(sessionIdsalvo){
+        console.log('Entrando na sessão')
+      try{
+        sessionId.value = sessionIdsalvo
+        autenticado.value = true
+
+        const respostaUsuario = await api.get('/account',{
+          params: {
+            session_id: sessionIdsalvo
+          }
+        })
+
+        usuario.value = respostaUsuario.data
+        alert(`Login realizado com sucesso! Bem-vindo agente ${usuario.value.username}`)
+        return true
+      }
+      catch(error){
+        console.error('Erro ao verificar sessão salva:', error)
+
+        localStorage.removeItem('session_id')
+        autenticado.value = false
+        sessionId.value = null
+        usuario.value = {}
+        return false
+      }
+      }
+      return false
+    }
+
+    const logout = () => {
+      localStorage.removeItem('session_id')
+      autenticado.value = false
+      sessionId.value = null
+      usuario.value = {}
+    }
 
   return {
     sessionId,
     autenticado,
     usuario,
     iniciarLogin,
-    criarSessaoComTokenAprovado
+    criarSessaoComTokenAprovado,
+    verificarSessaoSalva,
+    logout
   }
 })
