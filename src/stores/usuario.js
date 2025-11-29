@@ -32,7 +32,6 @@ export const useUsuarioStore = defineStore('usuario', () => {
         },
       })
       usuario.value = respostaUsuario.data
-      alert(`Login realizado com sucesso! Bem-vindo agente ${usuario.value.username}`)
       localStorage.setItem('session_id', novoSessionId)
     }
 
