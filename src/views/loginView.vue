@@ -1,7 +1,11 @@
 <script setup>
 import { usepopupLoginStore } from '@/stores/popUpLogin';
+import { useUsuarioStore } from '@/stores/usuario';
+
+const usuarioStore = useUsuarioStore();
 
 const popupLoginStore = usepopupLoginStore();
+
 </script>
 <template>
   <main v-if="popupLoginStore.isLoginVisible">
@@ -10,7 +14,7 @@ const popupLoginStore = usepopupLoginStore();
       Deseja entrar com sua conta do TheMovieDatabase?
     </h1>
     <div class="botao">
-    <button class="entrar">
+    <button class="entrar" @click="usuarioStore.iniciarLogin(); popupLoginStore.hideLogin()">
       Entrar
     </button>
     <button class="cancelar" @click="popupLoginStore.hideLogin()">
@@ -32,6 +36,7 @@ main{
   z-index: 2;
   height: 100%;
   width: 100%;
+  backdrop-filter: blur(3px);
 }
 .container{
   align-items: center;
@@ -57,6 +62,12 @@ main{
   padding: 0.5rem 1rem;
   border-radius: 5px;
   font-weight: bold;
+  cursor: pointer;
+}
+.entrar:hover{
+  background-color: green;
+  color: white;
+  transition: 0.3s;
 }
 .cancelar{
   background-color: white;
@@ -65,5 +76,11 @@ main{
   padding: 0.5rem 1rem;
   border-radius: 5px;
   font-weight: bold;
+  cursor: pointer;
+}
+.cancelar:hover{
+  background-color: red;
+  color: white;
+  transition: 0.3s;
 }
 </style>

@@ -2,8 +2,11 @@
 import { RouterLink, RouterView } from 'vue-router'
 import loginView from './views/loginView.vue';
 import { usepopupLoginStore } from './stores/popUpLogin';
+import { useUsuarioStore } from './stores/usuario';
 
 const popupLoginStore = usepopupLoginStore();
+const usuarioStore = useUsuarioStore();
+console.log('URL do Avatar:', usuarioStore.usuario?.avatar);
 </script>
 <template>
   <header>
@@ -17,14 +20,14 @@ const popupLoginStore = usepopupLoginStore();
           <li>
             <router-link to="/series">Séries</router-link>
           </li>
-          <li>
-            <button @click="popupLoginStore.showLogin()"> Entrar </button>
+          <li v-if="usuarioStore.autenticado">
+            <router-link>
+              <img :src="`https://image.tmdb.org/t/p/w45${usuarioStore.usuario.avatar?.tmdb?.avatar_path}`" :alt="usuarioStore.usuario?.username">
+            </router-link>
           </li>
-          <!--  Fazer um v-if checando se o usuário está logado depois de fazer o sistema de login
-          <li>
-            <router-link>Cadastrar</router-link>
+          <li v-else class="entrar">
+            <a @click="popupLoginStore.showLogin()"> Entrar </a>
           </li>
-          -->
         </ul>
       </div>
   </header>
@@ -42,20 +45,29 @@ header {
   padding: 1rem 2rem;
   background-color: white;
   color: black;
+  font-size: 1rem;
 }
 header ul {
   list-style: none;
   display: flex;
   gap: 1.5rem;
+  align-items: center;
 }
 header a{
   color: black;
   text-decoration: none;
+  cursor: pointer;
 }
 footer {
   text-align: center;
   padding: 4rem;
   background-color: white;
   color: black;
+}
+header img{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: block;
 }
 </style>

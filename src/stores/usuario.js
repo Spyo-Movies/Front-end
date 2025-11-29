@@ -1,29 +1,47 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-import api from '@/plugins/axios';
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
+import api from '@/plugins/axios'
 
 export const useUsuarioStore = defineStore('usuario', () => {
-  const sessionId = ref({});
-  const autenticado = ref(false);
-  const usuario = ref({});
 
-  const getRequestToken = async () => {
-    const Token = ref({})
-    const response = await api.get('authentication/token/new');
-    Token.value = response.data;
-    return Token;
+  const sessionId = ref(null)
+  const autenticado = ref(false)
+  const usuario = ref({})
+  const URL_REDIRECT = 'http://localhost:5173/'
+
+  const iniciarLogin = async () => {
+      const response = await api.get('/authentication/token/new')
+      const requestToken = response.data.request_token
+
+      const UrlAutenticacao = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${URL_REDIRECT}`
+      window.location.href = UrlAutenticacao
+    }
+
+  const criarSessaoComTokenAprovado = async (tokenAprovado) => { // AGORA É RECONHECIDA
+      const respostaSessao = await api.post('/authentication/session/new', {
+        request_token: tokenAprovado,
+      })
+
+      const novoSessionId = respostaSessao.data.session_id
+      sessionId.value = novoSessionId
+      autenticado.value = true
+
+      const respostaUsuario = await api.get('/account', {
+        params: {
+          session_id: novoSessionId,
+        },
+      })
+      usuario.value = respostaUsuario.data
+      console.log('Usuário autenticado:', usuario.value)
+      localStorage.setItem('session_id', novoSessionId)
+    }
+
+
+  return {
+    sessionId,
+    autenticado,
+    usuario,
+    iniciarLogin,
+    criarSessaoComTokenAprovado
   }
-  const criarSessao = async() => {
-    const requestToken = getRequestToken();
-    const sessao = ref({});
-    const sessionId = ref({});
-
-    const response = await api.post(`authentication/${requestToken}?redirect_to=http://localhost:5173/`)
-    sessao.value = response.data;
-
-    const response2 = await api.post('authentication/session/new', {request_token: sessao.value})
-    sessionId.value = response2.data;
-    autenticado.value = true;
-  }
-  return { sessionId, autenticado, usuario, criarSessao}
 })
