@@ -1,25 +1,22 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import api from '@/plugins/axios';
-import { useGeneroStore } from '@/stores/generos';
-import Loading from 'vue-loading-overlay';
+import { ref, onMounted } from 'vue'
+import api from '@/plugins/axios'
+import { useGeneroStore } from '@/stores/generos'
+import Loading from 'vue-loading-overlay'
 
-const generoStore = useGeneroStore();
+const generoStore = useGeneroStore()
 
 onMounted(async () => {
-  isLoading.value = true;
-  await generoStore.getTodosGeneros('movie');
-  isLoading.value = false;
-
-});
-const movies = ref([]);
-const isLoading = ref(false);
-
+  isLoading.value = true
+  await generoStore.getTodosGeneros('movie')
+  isLoading.value = false
+})
+const movies = ref([])
+const isLoading = ref(false)
 
 const listaFilmes = async (generoId) => {
-  generoStore.setIdGeneroAtual(generoId);
-  isLoading.value = true;
-
+  generoStore.setIdGeneroAtual(generoId)
+  isLoading.value = true
 
   const response = await api.get('discover/movie', {
     params: {
@@ -27,80 +24,68 @@ const listaFilmes = async (generoId) => {
       with_keywords: '470',
       language: 'pt-BR',
     },
-  });
-  movies.value = response.data.results;
-  isLoading.value = false;
-};
-const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
-
-
+  })
+  movies.value = response.data.results
+  isLoading.value = false
+}
+const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR')
 </script>
 
 <template>
   <main>
+    <div class="container">
+      <div class="genre-sidebar">
+        <h1 class="tituloPagina">Gêneros:</h1>
+        <ul class="genre-list">
+          <li
+            v-for="genero in generoStore.generos"
+            :key="genero.id"
+            @click="listaFilmes(genero.id)"
+            class="genre-item"
+            :class="{ active: genero.id === generoStore.idGeneroAtual }"
+          >
+            {{ genero.name }}
+          </li>
+        </ul>
+      </div>
+      <loading v-model:active="isLoading" is-full-page />
+      <div class="filmes">
+        <h1>Filmes:</h1>
 
-<div class="container">
-
- <div class="genre-sidebar">
-  <h1 class="tituloPagina">Gênero:</h1>
-  <ul class="genre-list">
-      <li
-    v-for="genero in generoStore.generos"
-    :key="genero.id"
-    @click="listaFilmes(genero.id)"
-    class="genre-item"
-    :class="{ active: genero.id === generoStore.idGeneroAtual }"
-  >
-    {{ genero.name }}
-  </li>
-
-  </ul>
-
- </div>
-  <loading v-model:active="isLoading" is-full-page />
-  <div class="filmes"><h1>Filmes:</h1>
-
-  <div class="movie-list">
-
-
-    <div v-for="movie in movies" :key="movie.id" class="movie-card">
-
-      <img
-  :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
-  :alt="movie.title"/>
-      <div class="movie-details">
-        <p class="movie-title">{{ movie.title }}</p>
-        <p class="movie-release-date">{{ formatDate(movie.release_date) }}</p>
-        <p class="movie-genres">
-         <span
-  v-for="genre_id in movie.genre_ids"
-  :key="genre_id"
-  @click="listaFilmes(genre_id)"
-  :class="{ active: genre_id === generoStore.idGeneroAtual }"
->
-  {{ generoStore.getNomeGeneros(genre_id) }}
-</span>
-        </p>
-
+        <div class="movie-list">
+          <div v-for="movie in movies" :key="movie.id" class="movie-card">
+            <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" />
+            <div class="movie-details">
+              <p class="movie-title">{{ movie.title }}</p>
+              <p class="movie-release-date">{{ formatDate(movie.release_date) }}</p>
+              <p class="movie-genres">
+                <span
+                  v-for="genre_id in movie.genre_ids"
+                  :key="genre_id"
+                  @click="listaFilmes(genre_id)"
+                  :class="{ active: genre_id === generoStore.idGeneroAtual }"
+                >
+                  {{ generoStore.getNomeGeneros(genre_id) }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
-
-</div>
   </main>
 </template>
 
 <style scoped>
-main{
+main {
   background-color: black;
   --color: #ffffff;
 }
 
-.container{
+.container {
   display: flex;
 }
-.tituloPagina{
+.tituloPagina {
   font-size: 2rem;
   margin-bottom: 1rem;
   margin-left: 2rem;
@@ -116,10 +101,9 @@ main{
   overflow-y: auto;
   background-color: black;
   color: white;
-
 }
 
- .genre-sidebar .genre-item {
+.genre-sidebar .genre-item {
   position: relative;
   z-index: 1;
   padding: 0.5rem;
@@ -156,7 +140,7 @@ main{
   left: -25px;
   transform: scale(1.5);
 }
-.genre-item.active{
+.genre-item.active {
   background: var(--color);
   color: black;
 }
@@ -165,18 +149,15 @@ main{
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-
 }
 
-.filmes{
+.filmes {
   padding: 2rem;
   color: white;
-
 }
-.filmes h1{
+.filmes h1 {
   margin-bottom: 2rem;
   position: sticky;
-
 }
 .movie-card {
   width: 15rem;
@@ -184,7 +165,6 @@ main{
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 0 0.5rem #000;
-
 }
 .movie-card img {
   width: 100%;
@@ -200,13 +180,13 @@ main{
   height: 3.2rem;
 }
 
-.movie-genres{
+.movie-genres {
   display: flex;
   flex-wrap: wrap;
   gap: 0.2rem;
 }
 
-.movie-genres span{
+.movie-genres span {
   padding: 0.4rem;
   color: black;
   background-color: white;
@@ -214,7 +194,7 @@ main{
   border-radius: 0.5rem;
   cursor: pointer;
 }
-.movie-genres span.active{
+.movie-genres span.active {
   background-color: black;
   color: white;
   border: white 2px solid;
@@ -226,5 +206,4 @@ main{
   color: gray;
   margin-bottom: 0.5rem;
 }
-
 </style>
