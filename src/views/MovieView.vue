@@ -4,7 +4,20 @@ import api from '@/plugins/axios'
 import { useGeneroStore } from '@/stores/generos'
 import Loading from 'vue-loading-overlay'
 
-const generoStore = useGeneroStore()
+
+////////////função de detalhes do filme//////////
+
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+function abrirFilme(filmeId) {
+  router.push({ name: 'DetalhesFilmes', params: { filmeId } });
+}
+//////////////
+
+
+
+const generoStore = useGeneroStore();
 
 onMounted(async () => {
   isLoading.value = true
@@ -97,7 +110,7 @@ main {
   top: 0;
   left: 0;
   height: 100vh;
-  padding: 2rem;
+  padding: 2rem 2rem 2rem 0;
   overflow-y: auto;
   background-color: black;
   color: white;

@@ -22,7 +22,18 @@ const router = createRouter({
       path: '/usuario',
       name: 'usuario',
       component: () => import('../views/usuarioView.vue'),
-    }
+    },
+      path: '/detalhes-filmes/:filmeId',
+      name: 'DetalhesFilmes',
+      component: () => import('../views/DetalhesFilmes.vue'),
+      props: true,
+    },
+    {
+      path: '/detalhes-series/:serieId',
+      name: 'DetalhesSeries',
+      component: () => import('../views/DetalhesSeries.vue'),
+      props: true,
+    },
   ],
 })
 

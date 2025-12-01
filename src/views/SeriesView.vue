@@ -12,6 +12,18 @@ const isLoading = ref(false)
 const formatarData = (date) => new Date(date).toLocaleDateString('pt-BR')
 const getNomeGenero = (id) => generos.value.find((genero) => genero.id === id).name
 
+////////////////detalhes da série//////////
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+function abrirSerie(serieId) {
+  router.push({ name: 'DetalhesSeries', params: { serieId } });
+}
+////////////////
+
+
+
+
 const listarSeries = async (generoId) => {
   generoStore.setIdGeneroAtual(generoId)
   isLoading.value = true

@@ -12,3 +12,4 @@ app.use(router)
 import 'vue-loading-overlay/dist/css/index.css';
 
 app.mount('#app')
+
