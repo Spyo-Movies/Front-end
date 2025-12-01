@@ -191,6 +191,7 @@ div.series h1 {
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 0 0.5rem #000;
+  cursor: pointer;
 }
 .cartao-serie img {
   width: 100%;
