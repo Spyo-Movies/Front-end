@@ -213,13 +213,13 @@ div.watchlist h3 {
 }
 div.cards {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   overflow-x: auto;
   padding: 0rem 2rem 1rem 2rem;
 }
 
 div.card {
-  min-width: 150px;
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
