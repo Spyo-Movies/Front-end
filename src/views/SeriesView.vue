@@ -28,14 +28,14 @@ const listarSeries = async (generoId) => {
 
 onMounted(async () => {
   isLoading.value = true
-  generoStore.getTodosGeneros('tv')
+  await generoStore.getTodosGeneros('tv')
   isLoading.value = false
 })
 </script>
 <template>
   <main>
     <div class="page-container">
-      <loading v-model:active="isLoading.value" is-full-page />
+      <loading v-model:active="isLoading" is-full-page />
 
       <div class="lista-genero">
         <p class="generos-titulo">Gêneros:</p>
