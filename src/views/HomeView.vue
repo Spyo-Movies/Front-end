@@ -4,24 +4,7 @@ import api from '@/plugins/axios.js'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/swiper-bundle.css'
 import { Navigation, Pagination } from 'swiper/modules'
-import { useRoute, useRouter } from 'vue-router'
-import { useUsuarioStore } from '@/stores/usuario.js'
 import loading from 'vue-loading-overlay'
-
-const route = useRoute()
-const router = useRouter()
-const usuarioStore = useUsuarioStore()
-
-onMounted(async () => {
-  const tokenAprovado = route.query.request_token
-
-  if (tokenAprovado) {
-    await usuarioStore.criarSessaoComTokenAprovado(tokenAprovado)
-    router.replace({ query: {} })
-  }
-
-  await usuarioStore.verificarSessaoSalva()
-})
 
 const filmesPopulares = ref([])
 const melhoresFilmes = ref([])
@@ -75,7 +58,7 @@ onMounted(async () => {
       <p>Filmes Populares:</p>
       <swiper
         :modules="[Navigation, Pagination]"
-        :slides-per-view="5"
+        :slides-per-view="4"
         navigation
         :centeredSlides="true"
         :loop="true"
@@ -92,7 +75,7 @@ onMounted(async () => {
       <p>Melhores Filmes:</p>
       <swiper
         :modules="[Navigation, Pagination]"
-        :slides-per-view="5"
+        :slides-per-view="4"
         navigation
         :centeredSlides="true"
         :loop="true"
@@ -109,7 +92,7 @@ onMounted(async () => {
       <p>Séries Populares:</p>
       <swiper
         :modules="[Navigation, Pagination]"
-        :slides-per-view="5"
+        :slides-per-view="4"
         navigation
         :centeredSlides="true"
         :loop="true"
@@ -126,7 +109,7 @@ onMounted(async () => {
       <p>Melhores Series:</p>
       <swiper
         :modules="[Navigation, Pagination]"
-        :slides-per-view="5"
+        :slides-per-view="4"
         navigation
         :centeredSlides="true"
         :loop="true"
@@ -152,7 +135,7 @@ main {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   text-align: center;
-  background-image: url(./public/Espiao-removebg-preview.png);
+  background-image: url(./Espiao-removebg-preview.png);
   background-size: cover;
   text-align: center;
 }
