@@ -40,14 +40,14 @@ const listarSeries = async (generoId) => {
 
 onMounted(async () => {
   isLoading.value = true
-  generoStore.getTodosGeneros('tv')
+  await generoStore.getTodosGeneros('tv')
   isLoading.value = false
 })
 </script>
 <template>
   <main>
     <div class="page-container">
-      <loading v-model:active="isLoading.value" is-full-page />
+      <loading v-model:active="isLoading" is-full-page />
 
       <div class="lista-genero">
         <p class="generos-titulo">Gêneros:</p>
@@ -65,9 +65,7 @@ onMounted(async () => {
       </div>
 
       <div class="series">
-        <h1>
-          Séries
-        </h1>
+        <h1 class="titulo">Séries:</h1>
         <div class="lista-series">
           <div v-for="serie in series" :key="serie.id" class="cartao-serie">
             <img
@@ -104,6 +102,10 @@ main {
 .page-container {
   display: flex;
   min-height: 100vh;
+}
+.generos-titulo {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 div.lista-genero {
   width: 20rem;
@@ -152,7 +154,7 @@ div.lista-genero .item-genero {
   color: #fff;
   background-color: var(--color);
 }
-.item-genero:hover p{
+.item-genero:hover p {
   color: #fff;
   transition: 0.7s;
 }
@@ -189,8 +191,8 @@ div.series h1 {
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 0 0.5rem #000;
+  cursor: pointer;
 }
-
 .cartao-serie img {
   width: 100%;
   height: 20rem;
@@ -203,7 +205,7 @@ div.series h1 {
   line-height: 1.3rem;
   height: 3.2rem;
 }
-.detalhes-serie{
+.detalhes-serie {
   padding: 0 0.5rem;
 }
 
@@ -213,7 +215,7 @@ div.series h1 {
   gap: 0.2rem;
 }
 
-.generos-serie span{
+.generos-serie span {
   padding: 0.4rem;
   color: black;
   background-color: white;
@@ -221,7 +223,7 @@ div.series h1 {
   border-radius: 0.5rem;
   cursor: pointer;
 }
-.detalhes-serie span.active{
+.detalhes-serie span.active {
   background-color: black;
   color: white;
   border: white 2px solid;

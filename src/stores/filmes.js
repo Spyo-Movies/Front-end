@@ -17,7 +17,7 @@ export const useFilmeStore = defineStore("filme", () => {
     state.filmeAtual = response.data;
   };
 
-  return { filmeAtual, getDetalhesFilme}
+  return { filmeAtual, getDetalhesFilme }
 
   });
 

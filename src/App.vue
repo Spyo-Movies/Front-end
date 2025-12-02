@@ -1,28 +1,57 @@
 <script setup>
+import { onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-</script>
+import loginView from './views/loginView.vue'
+import { usepopupLoginStore } from './stores/popUpLogin'
+import { useUsuarioStore } from './stores/usuario'
 
+const popupLoginStore = usepopupLoginStore()
+const usuarioStore = useUsuarioStore()
+console.log('URL do Avatar:', usuarioStore.usuario?.avatar)
+
+onMounted(async () => {
+  const redirectQuery = sessionStorage.getItem("redirectQuery");
+
+  if (redirectQuery) {
+    const params = new URLSearchParams(redirectQuery);
+    const tokenAprovado = params.get("request_token");
+
+    if (tokenAprovado) {
+      await usuarioStore.criarSessaoComTokenAprovado(tokenAprovado);
+      sessionStorage.removeItem("redirectQuery");
+      return; // não continua, já logou
+    }
+  }
+
+  usuarioStore.verificarSessaoSalva();
+});
+
+</script>
 <template>
   <header>
-      <router-link to="/">SPYo-Movies</router-link>
-      <div>
-        <ul>
-          <li>
-            <router-link to="/filmes">Filmes</router-link>
-          </li>
-          <li>
-            <router-link to="/series">Séries</router-link>
-          </li>
-          <li>
-            <router-link>Entrar</router-link>
-          </li>
-          <!--  Fazer um v-if checando se o usuário está logado depois de fazer o sistema de login
-          <li>
-            <router-link>Cadastrar</router-link>
-          </li>
-          -->
-        </ul>
-      </div>
+    <loginView v-model:active="popupLoginStore.isLoginVisible" />
+    <router-link to="/">SPYo-Movies</router-link>
+    <div>
+      <ul>
+        <li>
+          <router-link to="/filmes">Filmes</router-link>
+        </li>
+        <li>
+          <router-link to="/series">Séries</router-link>
+        </li>
+        <li v-if="usuarioStore.autenticado">
+          <router-link to="/usuario">
+            <img
+              :src="`https://image.tmdb.org/t/p/w45${usuarioStore.usuario.avatar?.tmdb?.avatar_path}`"
+              :alt="usuarioStore.usuario?.username"
+            />
+          </router-link>
+        </li>
+        <li v-else class="entrar">
+          <a @click="popupLoginStore.showLogin()"> Entrar </a>
+        </li>
+      </ul>
+    </div>
   </header>
   <RouterView />
   <footer>
@@ -38,20 +67,29 @@ header {
   padding: 1rem 2rem;
   background-color: white;
   color: black;
+  font-size: 1rem;
 }
 header ul {
   list-style: none;
   display: flex;
   gap: 1.5rem;
+  align-items: center;
 }
-header a{
+header a {
   color: black;
   text-decoration: none;
+  cursor: pointer;
 }
 footer {
   text-align: center;
   padding: 4rem;
   background-color: white;
   color: black;
+}
+header img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: block;
 }
 </style>

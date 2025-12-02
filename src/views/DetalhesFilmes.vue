@@ -2,9 +2,10 @@
   import { defineProps, onMounted } from 'vue';
   import { useFilmeStore } from '@/stores/filmes';
   import { useAtorStore } from '@/stores/atores';
+  import { useAdicionarAsListasStore } from '@/stores/adicionarAsListas';
   const filmeStore = useFilmeStore();
   const atorStore = useAtorStore();
-
+  const adicionarAsListasStore = useAdicionarAsListasStore()
 
 
   const props = defineProps({
@@ -43,8 +44,8 @@
         <p>Orçamento: ${{ formatPtBr(filmeStore.filmeAtual.budget) }}</p>
         <p>Avaliação: {{ Math.round(filmeStore.filmeAtual.vote_average * 10) }}%</p>
         <section class="buttons">
-    <a class="btnfos btnfos-5">Adicionar aos favoritos</a>
-     <a class="btnfos btnfos-5">Assistir mais tarde</a>
+    <a class="btnfos btnfos-5" @click="adicionarAsListasStore.adicionarFilmeFavoritos(filmeStore.filmeAtual.id)">Adicionar aos favoritos</a>
+     <a class="btnfos btnfos-5" @click="adicionarAsListasStore.adicionarFilmeAssistirDepois(filmeStore.filmeAtual.id)">Assistir mais tarde</a>
 </section>
       </div>
     </div>
