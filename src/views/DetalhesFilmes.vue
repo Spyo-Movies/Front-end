@@ -217,6 +217,7 @@
   position: relative;
   overflow: hidden;
   display: inline-block;
+  cursor: pointer;
 }
 
 
