@@ -140,7 +140,6 @@
     font-size: 1rem;
     text-align: center;
     background-color: rgb(201, 199, 199);
-
     padding: 3rem;
     font-size: 2rem;
     color: white;
@@ -149,7 +148,6 @@
 
   .companhias {
     display: flex;
-
     flex-wrap: wrap;
     padding: 1rem 2rem 5rem 2rem;
     justify-content: center;
@@ -161,9 +159,6 @@
   .nomeCom {
     color: black;
   }
-
-
-
   .atoresTitulo {
     font-size: 2rem;
     text-align: center;
