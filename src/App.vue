@@ -1,85 +1,95 @@
 <script setup>
+import { onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
+import loginView from './views/loginView.vue'
+import { usepopupLoginStore } from './stores/popUpLogin'
+import { useUsuarioStore } from './stores/usuario'
 
+const popupLoginStore = usepopupLoginStore()
+const usuarioStore = useUsuarioStore()
+console.log('URL do Avatar:', usuarioStore.usuario?.avatar)
+
+onMounted(async () => {
+  const redirectQuery = sessionStorage.getItem("redirectQuery");
+
+  if (redirectQuery) {
+    const params = new URLSearchParams(redirectQuery);
+    const tokenAprovado = params.get("request_token");
+
+    if (tokenAprovado) {
+      await usuarioStore.criarSessaoComTokenAprovado(tokenAprovado);
+      sessionStorage.removeItem("redirectQuery");
+      return; // não continua, já logou
+    }
+  }
+
+  usuarioStore.verificarSessaoSalva();
+});
+
+</script>
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+    <loginView v-model:active="popupLoginStore.isLoginVisible" />
+    <router-link to="/">SPYo-Movies</router-link>
+    <div>
+      <ul>
+        <li>
+          <router-link to="/filmes">Filmes</router-link>
+        </li>
+        <li>
+          <router-link to="/series">Séries</router-link>
+        </li>
+        <li v-if="usuarioStore.autenticado">
+          <router-link to="/usuario">
+            <img
+              :src="`https://image.tmdb.org/t/p/w45${usuarioStore.usuario.avatar?.tmdb?.avatar_path}`"
+              :alt="usuarioStore.usuario?.username"
+            />
+          </router-link>
+        </li>
+        <li v-else class="entrar">
+          <a @click="popupLoginStore.showLogin()"> Entrar </a>
+        </li>
+      </ul>
     </div>
   </header>
-
   <RouterView />
+  <footer>
+    <p>SPYo-Movies &copy; 2025</p>
+  </footer>
 </template>
 
 <style scoped>
 header {
-  line-height: 1.5;
-  max-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  color: black;
+  font-size: 1rem;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+header ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
 }
-
-nav {
-  width: 100%;
-  font-size: 12px;
+header a {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+footer {
   text-align: center;
-  margin-top: 2rem;
+  padding: 4rem;
+  background-color: white;
+  color: black;
 }
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+header img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: block;
 }
 </style>

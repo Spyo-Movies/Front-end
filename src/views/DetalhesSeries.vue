@@ -1,0 +1,260 @@
+<script setup>
+  import { defineProps, onMounted } from 'vue';
+  import { useSerieStore } from '@/stores/series';
+  import { useAtorStore } from '@/stores/atores';
+  import { useAdicionarAsListasStore } from '@/stores/adicionarAsListas';
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import 'swiper/swiper-bundle.css';
+  import { Navigation, Pagination } from 'swiper/modules';
+  const serieStore = useSerieStore();
+  const atorStore = useAtorStore();
+  const adicionarAsListasStore = useAdicionarAsListasStore()
+
+
+  const props = defineProps({
+    serieId: {
+      type: Number,
+      required: true,
+    },
+  });
+
+  onMounted(async () => {
+    await serieStore.getDetalhesSerie(props.serieId);
+
+    await atorStore.getAtoresSerie(props.serieId);
+  });
+
+
+
+</script>
+
+<template>
+  <div class="main">
+    <div class="content">
+      <img
+        :src="`https://image.tmdb.org/t/p/original${serieStore.serieAtual.poster_path}`"
+        :alt="serieStore.serieAtual.title"
+      />
+      <div class="detalhes">
+        <h1>{{  serieStore.serieAtual.name }}</h1>
+        <p class="avaliação">Avaliação: {{ Math.round(serieStore.serieAtual.vote_average * 10) }}%</p>
+        <p>{{ serieStore.serieAtual.tagline }}</p>
+        <p class="sinopse">Sinopse:</p>
+        <p>{{ serieStore.serieAtual.overview }}</p>
+        <section class="buttons">
+    <a class="btnfos btnfos-5" @click="adicionarAsListasStore.adicionarSerieFavoritos(serieStore.serieAtual.id)">Adicionar aos favoritos</a>
+     <a class="btnfos btnfos-5" @click="adicionarAsListasStore.adicionarSerieAssistirDepois(serieStore.serieAtual.id)">Assistir mais tarde</a>
+</section>
+      </div>
+    </div>
+ </div>
+
+<p class="atoresTitulo">Atores:</p>
+  <div class="atores">
+    <swiper
+      :modules="[Navigation, Pagination]"
+      :slides-per-view="6"
+      navigation
+      :centeredSlides="true"
+      :loop="true"
+    >
+    <swiper-slide
+      v-for="ator in atorStore.elencoSerie"
+      :key="ator.id"
+      class="ator-item"
+    >
+      <img
+        v-if="ator.profile_path"
+        :src="`https://image.tmdb.org/t/p/w154${ator.profile_path}`"
+        :alt="ator.name"
+      />
+      <p class="nome-ator">{{ ator.name }}</p>
+      <p class="personagem" v-if="ator.character">({{ ator.character }})</p>
+    </swiper-slide>
+    </swiper>
+  </div>
+
+  <p class="produtoras">Produtoras:</p>
+  <div class="companhias">
+    <div
+      v-for="companhia in serieStore.serieAtual.production_companies"
+      :key="companhia.id"
+    >
+      <img
+        v-if="companhia.logo_path"
+        :src="`https://image.tmdb.org/t/p/w92${companhia.logo_path}`"
+        :alt="companhia.name"
+      />
+      <p v-else class="nomeCom">{{ companhia.name }}</p>
+    </div>
+  </div>
+
+
+</template>
+
+<style scoped>
+
+  .main {
+    padding: 2rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+  }
+  .swiper {
+  width: 100%;
+  height: 100%;
+}
+  .content {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  .content img {
+    border-radius: 0.4rem;
+    width: 20vw;
+    object-fit: cover;
+  }
+  .detalhes{
+    max-width: 50vw;
+    border-radius: 0.4rem;
+    padding: 0 1rem;
+  }
+  .detalhes h1 {
+    margin-bottom: 1rem;
+  }
+  .detalhes p {
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    }
+  .atoresTitulo {
+    font-size: 1rem;
+    text-align: center;
+    background-color: #181818;
+    padding: 3rem;
+    font-size: 2rem;
+  }
+  .avaliação{
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    padding: 0.2rem;
+    border-radius: 0.4rem;
+    width: fit-content;
+  }
+
+  .produtoras {
+    font-size: 1rem;
+    text-align: center;
+    background-color: rgb(201, 199, 199);
+
+    padding: 3rem;
+    font-size: 2rem;
+    color: white;
+
+  }
+  .companhias {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: 0 2rem 2rem 2rem;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 8rem;
+    gap: 10rem;
+    background-color: rgb(201, 199, 199);
+    font-size: 1.5rem;
+  }
+  .nomeCom {
+
+    color: black;
+
+  }
+
+  .atores {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: 2rem;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(201, 199, 199);
+    padding-bottom: 3rem;
+    padding-top: 10vh;
+    gap: 3rem;
+  }
+  .ator-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 8rem;
+    color: #000;
+  }
+  .ator-item img {
+    border-radius: 0.4rem;
+    width: 8rem;
+    height: 10rem;
+    object-fit: cover;
+    margin-bottom: 0.4rem;
+  }
+  .nome-ator {
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0.1rem 0;
+  }
+  .personagem {
+    font-size: 0.75rem;
+    text-align: center;
+    color: #333;
+  }
+  .sinopse{
+    font-weight: bold;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    padding: 0.2rem;
+    border-radius: 0.4rem;
+    width: fit-content;
+  }
+  .buttons {
+    margin-top: 1.5rem;
+  }
+.btnfos {
+  text-decoration: none;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  margin-right: 1rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+}
+.btnfos-5 {
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 0px;
+  text-shadow: none;
+  -webkit-transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+          transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  outline-color: rgba(255, 255, 255, 0.5);
+  outline-offset: 0px;
+  padding: 0.5rem;
+}
+.btnfos-5:hover {
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+  outline-offset: 15px;
+  outline-color: rgba(255, 255, 255, 0);
+  text-shadow: 1px 1px 2px #427388;
+}
+::v-deep(.swiper-button-next),
+::v-deep(.swiper-button-prev) {
+  color: red;
+}
+</style>
+
+
