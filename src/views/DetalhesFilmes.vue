@@ -3,6 +3,9 @@
   import { useFilmeStore } from '@/stores/filmes';
   import { useAtorStore } from '@/stores/atores';
   import { useAdicionarAsListasStore } from '@/stores/adicionarAsListas';
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import 'swiper/swiper-bundle.css';
+  import { Navigation, Pagination } from 'swiper/modules';
   const filmeStore = useFilmeStore();
   const atorStore = useAtorStore();
   const adicionarAsListasStore = useAdicionarAsListasStore()
@@ -17,7 +20,7 @@
 
   onMounted(async () => {
     await filmeStore.getDetalhesFilme(props.filmeId);
-    
+
     await atorStore.getAtoresFilme(props.filmeId);
   });
 
@@ -54,8 +57,15 @@
 
   <p class="atoresTitulo">Atores:</p>
   <div class="atores">
-    <div
-      v-for="ator in atorStore.elencoFilme.slice(0, 12)"
+    <swiper
+      :modules="[Navigation, Pagination]"
+      :slides-per-view="6"
+      navigation
+      :centeredSlides="true"
+      :loop="true"
+    >
+    <swiper-slide
+      v-for="ator in atorStore.elencoFilme"
       :key="ator.id"
       class="ator-item"
     >
@@ -66,7 +76,8 @@
       />
       <p class="nome-ator">{{ ator.name }}</p>
       <p class="personagem" v-if="ator.character">({{ ator.character }})</p>
-    </div>
+    </swiper-slide>
+    </swiper>
   </div>
 
 
@@ -228,13 +239,17 @@
   padding: 0.5rem;
 
 }
-
 .btnfos-5:hover {
   border: 1px solid;
   box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
   outline-offset: 15px;
   outline-color: rgba(255, 255, 255, 0);
   text-shadow: 1px 1px 2px #427388;
+}
+
+::v-deep(.swiper-button-next),
+::v-deep(.swiper-button-prev) {
+  color: red;
 }
 
 </style>

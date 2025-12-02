@@ -22,6 +22,18 @@ function toggleAssistirDepois() {
   lista.value = false
 }
 
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+function abrirSerie(serieId) {
+  router.push({ name: 'DetalhesSeries', params: { serieId } });
+}
+
+function abrirFilme(filmeId) {
+  router.push({ name: 'DetalhesFilmes', params: { filmeId } })
+}
+
+
 onMounted(async () => {
   isLoading.value = true
   await listaUsuarioStore.getFavoritos()
@@ -64,7 +76,9 @@ onMounted(async () => {
         <div class="filmes">
           <h3>Filmes:</h3>
           <div class="cards">
-            <div v-for="filme in favoritosFilmes" :key="filme.id" class="card">
+            <div v-for="filme in favoritosFilmes" :key="filme.id" class="card"
+            @click="abrirFilme(filme.id)"
+            >
               <img
                 :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`"
                 alt="Poster do Filme"
@@ -79,7 +93,9 @@ onMounted(async () => {
         <div class="series">
           <h3>Séries:</h3>
           <div class="cards">
-            <div v-for="serie in favoritosSeries" :key="serie.id" class="card">
+            <div v-for="serie in favoritosSeries" :key="serie.id" class="card"
+            @click="abrirSerie(serie.id)"
+            >
               <img
                 :src="`https://image.tmdb.org/t/p/w500${serie.poster_path}`"
                 alt="Poster da Série"
@@ -97,7 +113,9 @@ onMounted(async () => {
         <div class="filmes">
           <h3>Filmes:</h3>
           <div class="cards">
-            <div v-for="filme in assistirDepoisFilmes" :key="filme.id" class="card">
+            <div v-for="filme in assistirDepoisFilmes" :key="filme.id" class="card"
+            @click="abrirFilme(filme.id)"
+            >
               <img
                 :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`"
                 alt="Poster do Filme"
@@ -112,7 +130,9 @@ onMounted(async () => {
         <div class="series">
           <h3>Séries:</h3>
           <div class="cards">
-            <div v-for="serie in assistirDepoisSeries" :key="serie.id" class="card">
+            <div v-for="serie in assistirDepoisSeries" :key="serie.id" class="card"
+            @click="abrirSerie(serie.id)"
+            >
               <img
                 :src="`https://image.tmdb.org/t/p/w500${serie.poster_path}`"
                 alt="Poster da Série"

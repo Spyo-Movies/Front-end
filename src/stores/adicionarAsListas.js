@@ -16,9 +16,14 @@ export const useAdicionarAsListasStore = defineStore("adicionarAsListas", () => 
         session_id: localStorage.getItem('session_id')
       }
     })
+    if(usuarioStore.autenticado == true){
     alert('Filme adicionado aos favoritos com sucesso!')
-  }
+    }
+    else{
+      alert('Você precisa estar logado para adicionar aos favoritos.')
 
+  }
+  }
   async function adicionarSerieFavoritos(serieId){
     await api.post(`/account/${usuarioStore.usuario.id}/favorite`, {
       media_type: 'tv',
@@ -29,7 +34,12 @@ export const useAdicionarAsListasStore = defineStore("adicionarAsListas", () => 
         session_id: localStorage.getItem('session_id')
       }
     })
+    if(usuarioStore.autenticado == true){
     alert('Série adicionada aos favoritos com sucesso!')
+    }
+    else{
+      alert('Você precisa estar logado para adicionar aos favoritos.')
+    }
   }
 
   async function adicionarFilmeAssistirDepois(filmeId){
@@ -42,7 +52,12 @@ export const useAdicionarAsListasStore = defineStore("adicionarAsListas", () => 
         session_id: localStorage.getItem('session_id')
       }
     })
-    alert('Filme adicionado à lista de assistir depois com sucesso!')
+    if(usuarioStore.autenticado == true){
+    alert('Filme adicionado à lista de assistir mais tarde com sucesso!')
+    }
+    else{
+      alert('Você precisa estar logado para adicionar ao assistir mais tarde.')
+    }
   }
 
   async function adicionarSerieAssistirDepois(serieId){
@@ -55,7 +70,12 @@ export const useAdicionarAsListasStore = defineStore("adicionarAsListas", () => 
         session_id: localStorage.getItem('session_id')
       }
     })
-    alert('Série adicionada à lista de assistir depois com sucesso!')
+    if(usuarioStore.autenticado == true){
+    alert('Série adicionada à lista de assistir mais tarde com sucesso!')
+    }
+    else{
+      alert('Você precisa estar logado para adicionar ao assistir mais tarde.')
+    }
   }
 
   return { adicionarFilmeFavoritos, adicionarSerieFavoritos, adicionarFilmeAssistirDepois, adicionarSerieAssistirDepois }
