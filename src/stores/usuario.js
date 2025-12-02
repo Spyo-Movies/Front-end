@@ -7,7 +7,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
   const sessionId = ref(null)
   const autenticado = ref(false)
   const usuario = ref({})
-  const URL_REDIRECT = 'http://localhost:5173/'
+  const URL_REDIRECT = 'https://spyo-movies.surge.sh/'
 
   const iniciarLogin = async () => {
       const response = await api.get('/authentication/token/new')
@@ -71,6 +71,12 @@ export const useUsuarioStore = defineStore('usuario', () => {
       autenticado.value = false
       sessionId.value = null
       usuario.value = {}
+      api.delete('/authentication/session', {
+        data: {
+          session_id: sessionId.value
+        }
+      })
+      alert('Logout realizado com sucesso!')
     }
 
   return {

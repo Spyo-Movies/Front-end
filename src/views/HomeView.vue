@@ -135,7 +135,7 @@ main {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   text-align: center;
-  background-image: url(./public/Espiao-removebg-preview.png);
+  background-image: url(/Espiao-removebg-preview.png);
   background-size: cover;
   text-align: center;
 }

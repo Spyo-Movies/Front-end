@@ -37,6 +37,7 @@ onMounted(async () => {
   <main>
     <div class="container-up">
       <div class="usuario">
+        <div class="usuario-detalhes">
         <img
           :src="`https://image.tmdb.org/t/p/w45${usuarioStore.usuario.avatar?.tmdb?.avatar_path}`"
           alt="Avatar do Usuário"
@@ -46,6 +47,8 @@ onMounted(async () => {
           <p>Linguagem: {{ usuarioStore.usuario.iso_639_1.toUpperCase() }}</p>
           <p>Região: {{ usuarioStore.usuario.iso_3166_1.toUpperCase() }}</p>
         </div>
+        </div>
+        <router-link to='/' class="logout" @click="usuarioStore.logout()">Sair da conta</router-link>
       </div>
       <div class="botoes">
         <button :class="{ active: lista == true }" @click="toggleFavoritos()">Favoritos</button>
@@ -137,6 +140,12 @@ div.usuario {
   padding: 3rem 3rem 0rem 3rem;
   background-color: black;
   color: white;
+  justify-content: space-between;
+}
+div.usuario-detalhes {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 div.usuario img {
   border-radius: 50%;
@@ -157,6 +166,16 @@ div.usuario p.username {
   color: white;
   font-weight: bold;
   font-size: 1.5rem;
+}
+a.logout {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
 div.botoes {
   display: flex;
