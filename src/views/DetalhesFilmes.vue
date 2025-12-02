@@ -1,8 +1,10 @@
 <script setup>
   import { defineProps, onMounted } from 'vue';
   import { useFilmeStore } from '@/stores/filmes';
+  import { useAtorStore } from '@/stores/atores';
   import { useAdicionarAsListasStore } from '@/stores/adicionarAsListas';
   const filmeStore = useFilmeStore();
+  const atorStore = useAtorStore();
   const adicionarAsListasStore = useAdicionarAsListasStore()
 
 
@@ -15,6 +17,8 @@
 
   onMounted(async () => {
     await filmeStore.getDetalhesFilme(props.filmeId);
+    
+    await atorStore.getAtoresFilme(props.filmeId);
   });
 
   const formatPtBr = (value) => {
@@ -48,6 +52,24 @@
 
 </div>
 
+  <p class="atoresTitulo">Atores:</p>
+  <div class="atores">
+    <div
+      v-for="ator in atorStore.elencoFilme.slice(0, 12)"
+      :key="ator.id"
+      class="ator-item"
+    >
+      <img
+        v-if="ator.profile_path"
+        :src="`https://image.tmdb.org/t/p/w154${ator.profile_path}`"
+        :alt="ator.name"
+      />
+      <p class="nome-ator">{{ ator.name }}</p>
+      <p class="personagem" v-if="ator.character">({{ ator.character }})</p>
+    </div>
+  </div>
+
+
   <p class="produtoras">Produtoras:</p>
   <div class="companhias">
     <div
@@ -59,9 +81,10 @@
         :src="`https://image.tmdb.org/t/p/w92${companhia.logo_path}`"
         :alt="companhia.name"
       />
-      <p v-else>{{ companhia.name }}</p>
+      <p v-else class="nomeCom">{{ companhia.name }}</p>
     </div>
   </div>
+
 
 </template>
 
@@ -83,6 +106,7 @@
   .content img {
     border-radius: 0.4rem;
     width: 20vw;
+    object-fit: cover;
   }
   .detalhes{
     max-width: 50vw;
@@ -105,22 +129,71 @@
     font-size: 1rem;
     text-align: center;
     background-color: rgb(201, 199, 199);
+
     padding: 3rem;
     font-size: 2rem;
+    color: white;
 
   }
 
   .companhias {
     display: flex;
-    gap: 2rem;
+
     flex-wrap: wrap;
-    padding: 0 2rem 2rem 2rem;
+    padding: 1rem 2rem 5rem 2rem;
     justify-content: center;
     align-items: center;
-    padding-bottom: 6rem;
     gap: 10rem;
     background-color: rgb(201, 199, 199);
     font-size: 1.5rem;
+  }
+  .nomeCom {
+    color: black;
+  }
+
+
+
+  .atoresTitulo {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color:white;
+  }
+  .atores {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: 2rem;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(201, 199, 199);
+
+    gap: 3rem;
+  }
+  .ator-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 8rem;
+    color: #000;
+  }
+  .ator-item img {
+    border-radius: 0.4rem;
+    width: 8rem;
+    height: 10rem;
+    object-fit: cover;
+    margin-bottom: 0.4rem;
+  }
+  .nome-ator {
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0.1rem 0;
+  }
+  .personagem {
+    font-size: 0.75rem;
+    text-align: center;
+    color: #333;
   }
 
   .buttons {
