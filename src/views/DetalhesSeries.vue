@@ -1,8 +1,9 @@
 <script setup>
   import { defineProps, onMounted } from 'vue';
   import { useSerieStore } from '@/stores/series';
+  import { useAdicionarAsListasStore } from '@/stores/adicionarAsListas';
   const serieStore = useSerieStore();
-
+  const adicionarAsListasStore = useAdicionarAsListasStore()
 
 
   const props = defineProps({
@@ -34,8 +35,8 @@
         <p class="sinopse">Sinopse:</p>
         <p>{{ serieStore.serieAtual.overview }}</p>
         <section class="buttons">
-    <a class="btnfos btnfos-5">Adicionar aos favoritos</a>
-     <a class="btnfos btnfos-5">Assistir mais tarde</a>
+    <a class="btnfos btnfos-5" @click="adicionarAsListasStore.adicionarSerieFavoritos(serieStore.serieAtual.id)">Adicionar aos favoritos</a>
+     <a class="btnfos btnfos-5" @click="adicionarAsListasStore.adicionarSerieAssistirDepois(serieStore.serieAtual.id)">Assistir mais tarde</a>
 </section>
       </div>
     </div>

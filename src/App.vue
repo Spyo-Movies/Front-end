@@ -4,25 +4,28 @@ import { RouterLink, RouterView } from 'vue-router'
 import loginView from './views/loginView.vue'
 import { usepopupLoginStore } from './stores/popUpLogin'
 import { useUsuarioStore } from './stores/usuario'
-import { useRoute, useRouter } from 'vue-router'
 
 const popupLoginStore = usepopupLoginStore()
 const usuarioStore = useUsuarioStore()
 console.log('URL do Avatar:', usuarioStore.usuario?.avatar)
 
-const route = useRoute()
-const router = useRouter()
-
 onMounted(async () => {
-  const tokenAprovado = route.query.request_token
+  const redirectQuery = sessionStorage.getItem("redirectQuery");
 
-  if (tokenAprovado) {
-    await usuarioStore.criarSessaoComTokenAprovado(tokenAprovado)
-    router.replace({ query: {} })
+  if (redirectQuery) {
+    const params = new URLSearchParams(redirectQuery);
+    const tokenAprovado = params.get("request_token");
+
+    if (tokenAprovado) {
+      await usuarioStore.criarSessaoComTokenAprovado(tokenAprovado);
+      sessionStorage.removeItem("redirectQuery");
+      return; // não continua, já logou
+    }
   }
 
-  await usuarioStore.verificarSessaoSalva()
-})
+  usuarioStore.verificarSessaoSalva();
+});
+
 </script>
 <template>
   <header>
