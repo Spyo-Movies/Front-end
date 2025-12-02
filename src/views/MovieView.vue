@@ -187,6 +187,13 @@ main {
   border-radius: 0.5rem;
   box-shadow: 0 0 0.5rem #000;
 }
+.movie-card:hover {
+  transform: scale(1.05);
+  transition: transform 0.8s ease-in-out;
+  margin: 0.2rem;
+  z-index: 1;
+}
+
 .movie-title {
   color: white;
   font-size: 1.1rem;
