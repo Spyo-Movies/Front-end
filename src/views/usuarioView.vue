@@ -256,6 +256,7 @@ div.cards {
   gap: 1rem;
   overflow-x: auto;
   padding: 0rem 2rem 1rem 2rem;
+  cursor: pointer;
 }
 
 div.card {

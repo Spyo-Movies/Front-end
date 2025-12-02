@@ -229,6 +229,7 @@
   position: relative;
   overflow: hidden;
   display: inline-block;
+  cursor: pointer;
 }
 .btnfos-5 {
   border: 0 solid;
