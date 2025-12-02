@@ -47,6 +47,16 @@ onMounted(async () => {
   seriesPopulares.value = response.data.items
   isLoading.value = false
 })
+
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+function abrirSerie(serieId) {
+  router.push({ name: 'DetalhesSeries', params: { serieId } });
+}
+function abrirFilme(filmeId) {
+  router.push({ name: 'DetalhesFilmes', params: { filmeId } })
+}
 </script>
 <template>
   <main>
@@ -64,7 +74,9 @@ onMounted(async () => {
         :loop="true"
       >
         <swiper-slide v-for="filme in filmesPopulares" :key="filme.id">
-          <div class="filme-card">
+          <div class="filme-card"
+          @click="abrirFilme(filme.id)"
+          >
             <img :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`" :alt="filme.title" />
             {{ filme.title }}
           </div>
@@ -81,7 +93,9 @@ onMounted(async () => {
         :loop="true"
       >
         <swiper-slide v-for="filme in melhoresFilmes" :key="filme.id">
-          <div class="filme-card">
+          <div class="filme-card"
+          @click="abrirFilme(filme.id)"
+          >
             <img :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`" :alt="filme.title" />
             {{ filme.title }}
           </div>
@@ -98,7 +112,9 @@ onMounted(async () => {
         :loop="true"
       >
         <swiper-slide v-for="serie in seriesPopulares" :key="serie.id">
-          <div class="filme-card">
+          <div class="filme-card"
+          @click="abrirSerie(serie.id)"
+          >
             <img :src="`https://image.tmdb.org/t/p/w500${serie.poster_path}`" :alt="serie.name" />
             {{ serie.name }}
           </div>
@@ -115,7 +131,9 @@ onMounted(async () => {
         :loop="true"
       >
         <swiper-slide v-for="serie in melhoresSeries" :key="serie.id">
-          <div class="filme-card">
+          <div class="filme-card"
+          @click="abrirSerie(serie.id)"
+          >
             <img :src="`https://image.tmdb.org/t/p/w500${serie.poster_path}`" :alt="serie.name" />
             {{ serie.name }}
           </div>
@@ -165,6 +183,7 @@ main {
   width: 100%;
   border-radius: 20px;
   margin-bottom: 0.5rem;
+  cursor: pointer;
 }
 div p {
   padding: 2rem 2rem 2rem 4rem;

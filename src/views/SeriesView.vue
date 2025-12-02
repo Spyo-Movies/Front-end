@@ -104,7 +104,7 @@ main {
   min-height: 100vh;
 }
 .generos-titulo {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
 }
 div.lista-genero {

@@ -3,6 +3,9 @@
   import { useSerieStore } from '@/stores/series';
   import { useAtorStore } from '@/stores/atores';
   import { useAdicionarAsListasStore } from '@/stores/adicionarAsListas';
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import 'swiper/swiper-bundle.css';
+  import { Navigation, Pagination } from 'swiper/modules';
   const serieStore = useSerieStore();
   const atorStore = useAtorStore();
   const adicionarAsListasStore = useAdicionarAsListasStore()
@@ -17,7 +20,7 @@
 
   onMounted(async () => {
     await serieStore.getDetalhesSerie(props.serieId);
-    
+
     await atorStore.getAtoresSerie(props.serieId);
   });
 
@@ -48,8 +51,15 @@
 
 <p class="atoresTitulo">Atores:</p>
   <div class="atores">
-    <div
-      v-for="ator in atorStore.elencoSerie.slice(0, 12)"
+    <swiper
+      :modules="[Navigation, Pagination]"
+      :slides-per-view="6"
+      navigation
+      :centeredSlides="true"
+      :loop="true"
+    >
+    <swiper-slide
+      v-for="ator in atorStore.elencoSerie"
       :key="ator.id"
       class="ator-item"
     >
@@ -60,7 +70,8 @@
       />
       <p class="nome-ator">{{ ator.name }}</p>
       <p class="personagem" v-if="ator.character">({{ ator.character }})</p>
-    </div>
+    </swiper-slide>
+    </swiper>
   </div>
 
   <p class="produtoras">Produtoras:</p>
@@ -91,6 +102,10 @@
     align-items: center;
     background-color: black;
   }
+  .swiper {
+  width: 100%;
+  height: 100%;
+}
   .content {
     display: flex;
     gap: 2rem;
@@ -235,9 +250,10 @@
   outline-color: rgba(255, 255, 255, 0);
   text-shadow: 1px 1px 2px #427388;
 }
-
-
-
+::v-deep(.swiper-button-next),
+::v-deep(.swiper-button-prev) {
+  color: red;
+}
 </style>
 
 
